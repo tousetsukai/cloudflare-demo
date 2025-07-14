@@ -3,9 +3,7 @@
   "name": "honox-example",
   "main": "./dist/index.js",
   "compatibility_date": "2025-07-14",
-  "compatibility_flags": [
-    "nodejs_compat"
-  ],
+  "compatibility_flags": ["nodejs_compat"],
   "assets": {
     "directory": "./dist"
   },
@@ -15,7 +13,7 @@
       "database_name": "cloudflare-demo",
       "database_id": "7542e625-9410-49be-9dea-69de61de0bed"
     }
-  ],
+  ]
   // "vars": {
   //   "MY_VAR": "my-variable"
   // },
