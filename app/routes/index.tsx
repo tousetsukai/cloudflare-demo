@@ -8,6 +8,12 @@ export default createRoute(async (c) => {
       <title>{name}</title>
       <h1 class="text-3xl font-bold">Hello, {name}!</h1>
       <Counter />
+      <a href="/dashboard" class="text-blue-500 hover:underline">
+        Go to Dashboard
+      </a>
+      <a href="/logout" class="ml-4 text-blue-500 hover:underline">
+        Logout
+      </a>
     </div>,
   );
 });
