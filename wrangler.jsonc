@@ -8,7 +8,14 @@
   ],
   "assets": {
     "directory": "./dist"
-  }
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "cloudflare-demo",
+      "database_id": "7542e625-9410-49be-9dea-69de61de0bed"
+    }
+  ],
   // "vars": {
   //   "MY_VAR": "my-variable"
   // },
@@ -22,13 +29,6 @@
   //   {
   //     "binding": "MY_BUCKET",
   //     "bucket_name": "my-bucket"
-  //   }
-  // ],
-  // "d1_databases": [
-  //   {
-  //     "binding": "MY_DB",
-  //     "database_name": "my-database",
-  //     "database_id": ""
   //   }
   // ],
   // "ai": {
