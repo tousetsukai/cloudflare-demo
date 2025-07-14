@@ -1,4 +1,4 @@
-import { Ordinal } from "../values/ordinal";
+import { Ordinal } from '../values/ordinal';
 
 export class Andon {
   constructor(
@@ -9,7 +9,7 @@ export class Andon {
     public title: string,
     public description: string,
     readonly createdAt: Date,
-    readonly updatedAt: Date
+    readonly updatedAt: Date,
   ) {}
 
   changeTitle(newTitle: string) {

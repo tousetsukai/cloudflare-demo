@@ -1,4 +1,4 @@
-import { Ordinal } from "../values/ordinal";
+import { Ordinal } from '../values/ordinal';
 
 export class User {
   constructor(
@@ -7,7 +7,7 @@ export class User {
     public displayName: string,
     readonly cohortNumber: Ordinal,
     readonly createdAt: Date,
-    readonly updatedAt: Date
+    readonly updatedAt: Date,
   ) {}
 
   changeUsername(newUsername: string) {

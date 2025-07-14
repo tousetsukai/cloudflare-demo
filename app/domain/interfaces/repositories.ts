@@ -1,5 +1,5 @@
-import { User } from "../entities/user";
-import { Ordinal } from "../values/ordinal";
+import { User } from '../entities/user';
+import { Ordinal } from '../values/ordinal';
 
 export type CreateUserDto = {
   username: string;
