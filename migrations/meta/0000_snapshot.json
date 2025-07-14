@@ -76,18 +76,12 @@
       "indexes": {
         "andon_festival_id_grade_class_number_key": {
           "name": "andon_festival_id_grade_class_number_key",
-          "columns": [
-            "festival_id",
-            "grade",
-            "class_number"
-          ],
+          "columns": ["festival_id", "grade", "class_number"],
           "isUnique": true
         },
         "andon_festival_id_idx": {
           "name": "andon_festival_id_idx",
-          "columns": [
-            "festival_id"
-          ],
+          "columns": ["festival_id"],
           "isUnique": false
         }
       },
@@ -150,12 +144,8 @@
           "name": "articles_owner_id_users_id_fk",
           "tableFrom": "articles",
           "tableTo": "users",
-          "columnsFrom": [
-            "owner_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["owner_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -208,24 +198,17 @@
       "indexes": {
         "andon_prizes_andon_id_prize_id_key": {
           "name": "andon_prizes_andon_id_prize_id_key",
-          "columns": [
-            "andon_id",
-            "prize_id"
-          ],
+          "columns": ["andon_id", "prize_id"],
           "isUnique": true
         },
         "andon_prizes_andon_id_idx": {
           "name": "andon_prizes_andon_id_idx",
-          "columns": [
-            "andon_id"
-          ],
+          "columns": ["andon_id"],
           "isUnique": false
         },
         "andon_prizes_prize_id_idx": {
           "name": "andon_prizes_prize_id_idx",
-          "columns": [
-            "prize_id"
-          ],
+          "columns": ["prize_id"],
           "isUnique": false
         }
       },
@@ -234,12 +217,8 @@
           "name": "andon_prizes_andon_id_andons_id_fk",
           "tableFrom": "andon_prizes",
           "tableTo": "andons",
-          "columnsFrom": [
-            "andon_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["andon_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -247,12 +226,8 @@
           "name": "andon_prizes_prize_id_prizes_id_fk",
           "tableFrom": "andon_prizes",
           "tableTo": "prizes",
-          "columnsFrom": [
-            "prize_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["prize_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -312,9 +287,7 @@
       "indexes": {
         "festivals_festivalNumber_unique": {
           "name": "festivals_festivalNumber_unique",
-          "columns": [
-            "festival_number"
-          ],
+          "columns": ["festival_number"],
           "isUnique": true
         }
       },
@@ -463,9 +436,7 @@
       "indexes": {
         "users_username_unique": {
           "name": "users_username_unique",
-          "columns": [
-            "username"
-          ],
+          "columns": ["username"],
           "isUnique": true
         }
       },
