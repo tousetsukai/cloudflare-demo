@@ -10,7 +10,8 @@
     "format": "biome format --write",
     "check": "biome check",
     "db:generate": "drizzle-kit generate",
-    "db:apply": "wrangler d1 migrations apply cloudflare-demo --local"
+    "db:apply": "wrangler d1 migrations apply cloudflare-demo --local",
+    "db:seed": "wrangler d1 execute cloudflare-demo --file ./seed.sql --local"
   },
   "private": true,
   "dependencies": {

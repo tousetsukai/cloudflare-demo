@@ -41,7 +41,7 @@ export const andons = sqliteTable(
   'andons',
   {
     id: integer().primaryKey({ autoIncrement: true }),
-    festivalId: integer().notNull(),
+    festivalId: integer().notNull(), // festivalNumber のほうがいい説
     grade: integer().notNull(),
     classNumber: integer().notNull(), // クラス番号が不明なケースがあり、その場合はマイナスとする (URL に入れたいので何らかの値は必要)
     title: text(),
