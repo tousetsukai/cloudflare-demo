@@ -8,7 +8,9 @@
     "deploy": "bun run build && wrangler deploy",
     "types:generate": "wrangler types ./app/cloudflare.d.ts --env-interface CloudflareBindings",
     "format": "biome format --write",
-    "check": "biome check"
+    "check": "biome check",
+    "db:generate": "drizzle-kit generate",
+    "db:apply": "wrangler d1 migrations apply cloudflare-demo --local"
   },
   "private": true,
   "dependencies": {
