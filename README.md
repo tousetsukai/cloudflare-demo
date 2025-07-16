@@ -2,7 +2,9 @@
 
 行灯職人への道の新しい構成を試すためのリポジトリ
 
-## インフラの構築 (初回のみ)
+# 環境構築
+
+## インフラの構築 (初回のみ; 灯雪会アカウントを使う場合は構築済み)
 
 Cloudflare にアクセスし、R2 のアクセストークンおよび Cloudflare D1 の権限があるアクセストークンを取得してください。
 Auth0 にアクセスし、Terraform 用のアプリケーションの client ID と client secret を取得してください。
@@ -10,8 +12,9 @@ Auth0 にアクセスし、Terraform 用のアプリケーションの client ID
 ```
 cd terraform
 cp terraform.tfvars.example terraform.tfvars
-cp terraform.tfbackend.example terraform.tfbackend
 $EDITOR terraform.tfvars
+cp terraform.tfbackend.example terraform.tfbackend
+$EDITOR terraform.tfbackend
 terraform init
 terraform plan
 terraform apply
@@ -35,6 +38,8 @@ bun run preview
 
 ## DB マイグレーション
 
+ローカルの D1 がマイグレーションされる
+
 ```
 bun run db:generate
 bun run db:apply
@@ -49,39 +54,59 @@ bun run deploy
 
 # プロジェクトの構成
 
+主にドメインとその外側で分かれている。だいたい DDD に乗ってるつもり。
+
 - `/domain`
   - ドメインモデルとビジネスロジック
   - 一番大事なやつ
-  - ルール
-    - I/O や外部サービスには依存せず純粋に保つ
+  - ルール: I/O や外部サービスには依存せず純粋に保つ
+  - `/domain/values`
+    - いわゆる Value Object
+    - ルール: immutable にする
+  - `/domain/entities`
+    - いわゆるエンティティと集約
+    - ルール: id を持ち、id で同一か判断される。mutable。集約されている場合は集約ルートからしか触らないようにする。values にのみ依存
+    - 集約にするかどうか: 各エンティティの状態やライフサイクル間の整合性が大事な場合にのみ集約にする
+  - `/domain/interfaces`
+    - インフラ層のインタフェース
+    - ルール: 具体的なサービスには依存しない。values と entities にのみ依存
+  - `/domain/usecases`
+    - いわゆるアプリケーションサービスとドメインサービスがごっちゃになった層
+    - ルール: 複数エンティティにまたがる操作、リポジトリ層を使う操作などをユースケース毎に書く。values と entities と interfaces にのみ依存
+- `/infra`
+  - DB や外部サービスとのやり取りを行う具体的な実装
+  - サービス名ごとにディレクトリを掘っている
+  - domain/interfaces を実装する
+  - ルール: domain と各サービスや DB の実装に依存
 - `/app`
-  - HonoX を使用したルーティングとコンポーネント
+  - HonoX を使用したルーティングとコンポーネントでアプリケーションのエントリポイント
   - (HonoX のデフォルトの名前が app なだけでアプリケーション層を表しているわけではない)
   - ルール
     - Cloudflare Workers で動くという知識を使っていい
-- `/adapters`
-  - DB や外部サービスとのやり取りを行う具体的な実装
 
-本当は `src` ディレクトリを作ってその下に入れたかったが、HonoX のデフォルトが `app` ディレクトリなのでリポジトリ直下に `domain` や `infra` ディレクトリを置くことにしている
+本当は `src` ディレクトリを作ってその下に各モジュールを入れたかったが、HonoX のデフォルトが `app` ディレクトリなのでリポジトリ直下に `domain` や `infra` ディレクトリを置くことにしている
 
-# 設計
+# その他
 
 ## エンティティの ID について
 
 - ULID を使用する
   - auto_increment は以下の理由により使わない
     - エンティティの生成時に ID が事前に必要
+      - DDD 的にはエンティティを作ってから永続化するのが推奨らしい
+      - エンティティの作成メソッドにバリデーションなどを含められる
     - Cloudflare D1 はトランザクションをサポートしていないため、sqlite を使って ID を取得しつつそれを insert ということがしにくい (衝突の可能性がある)
     - Durable Object で ID を生成することもできるが、実装コスト・パフォーマンスの観点から避けたい
   - UUIDv4 や CUID2 は以下の理由により使わない
     - 完全ランダムだと DB のパフォーマンスに影響する
     - 例えば画像のメタデータを DB で管理することになった場合、10 万単位のレコード数になりうる
       - 画像を一括アップロードした場合、ミリ秒以内に投入した画像を投入順で取得したいことがあり、その場合 ULID のほうが便利 (ランダム ID でも工夫すれば可能だが、ULID のほうが簡単)
+    - どうしてもランダムな値にしたい場合はそこだけ CUID などを使うようにする
 
 ## 認証
 
 - Auth0 を使用する
-  - が、依存しているのは terraform だけで、アプリ的には環境変数を変えれば他の認証サービスでも動く (OIDC に準拠していれば)
+  - が、アプリ側に明示的に Auth0 に依存しているものはなく、環境変数を変えれば他の認証サービスでも動く (OIDC に準拠していれば)
 - /dashboard 以下にアクセスするには Auth0 のログインかつ DB へのユーザ情報の登録が必要
   - 未ログインの場合は Auth0 のログインページにリダイレクトする
   - Auth0 ログインページではサインアップも可能
