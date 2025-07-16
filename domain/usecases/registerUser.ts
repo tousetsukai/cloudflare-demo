@@ -5,22 +5,34 @@ import { Ordinal } from '../values/ordinal';
 export class RegisterUserUseCase {
   constructor(private userRepository: IUserRepository) {}
 
-  async execute(email: string, username: string): Promise<User> {
+  async execute(
+    email: string,
+    username: string,
+    displayName: string,
+    cohortNumber: number,
+  ): Promise<User> {
     // Check if the user already exists
-    const existingUser = await this.userRepository.findByEmail(email);
-    if (existingUser) {
-      throw new Error('User already registered');
+    const existingEmailUser = await this.userRepository.findByEmail(email);
+    if (existingEmailUser) {
+      throw new Error('The email already registered');
+    }
+    const existingUsernameUser =
+      await this.userRepository.findByUsername(username);
+    if (existingUsernameUser) {
+      throw new Error('The username already registered');
     }
 
     // Create a new user
-    const userData = {
-      id: crypto.randomUUID(), // TODO: Generate a unique ID
+    const id = await this.userRepository.nextId();
+    const user = User.create(
+      id,
       email,
       username,
-      displayName: username, // Default display name to username
-      cohortNumber: new Ordinal(1), // Default cohort number, can be adjusted later
-    };
+      displayName,
+      new Ordinal(cohortNumber),
+    );
+    await this.userRepository.create(user);
 
-    return this.userRepository.create(userData);
+    return user;
   }
 }

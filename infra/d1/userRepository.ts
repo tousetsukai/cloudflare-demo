@@ -3,42 +3,32 @@ import { eq, sql } from 'drizzle-orm';
 import { users } from './schema';
 import {
   IUserRepository,
-  CreateUserDto,
   UpdateUserDto,
 } from '../../domain/interfaces/userRepository';
 import { User } from '../../domain/entities/user';
 import { Ordinal } from '../../domain/values/ordinal';
+import { ulid } from 'ulid';
 
 export class UserRepository implements IUserRepository {
-  private db;
+  private readonly db;
 
   constructor(db: D1Database) {
     this.db = drizzle(db, { casing: 'snake_case' });
   }
 
-  toEntity(row: {
-    id: string;
-    email: string;
-    username: string;
-    displayName: string;
-    cohortNumber: number;
-  }): User {
-    return new User(
-      row.id,
-      row.email,
-      row.username,
-      row.displayName,
-      new Ordinal(row.cohortNumber),
-    );
+  async nextId(): Promise<string> {
+    return ulid();
   }
 
-  async create(userData: CreateUserDto): Promise<User> {
+  async create(user: User): Promise<void> {
     const values = {
-      ...userData,
-      cohortNumber: userData.cohortNumber.inner,
+      id: user.id,
+      email: user.email,
+      username: user.username,
+      displayName: user.displayName,
+      cohortNumber: user.cohortNumber.inner,
     };
-    const [user] = await this.db.insert(users).values(values).returning();
-    return this.toEntity(user);
+    await this.db.insert(users).values(values);
   }
 
   async findById(id: string): Promise<User | null> {
@@ -78,5 +68,21 @@ export class UserRepository implements IUserRepository {
 
   async delete(id: string): Promise<void> {
     await this.db.delete(users).where(eq(users.id, id));
+  }
+
+  toEntity(row: {
+    id: string;
+    email: string;
+    username: string;
+    displayName: string;
+    cohortNumber: number;
+  }): User {
+    return new User(
+      row.id,
+      row.email,
+      row.username,
+      row.displayName,
+      new Ordinal(row.cohortNumber),
+    );
   }
 }

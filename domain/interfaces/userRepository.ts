@@ -1,14 +1,6 @@
 import { User } from '../entities/user';
 import { Ordinal } from '../values/ordinal';
 
-export type CreateUserDto = {
-  id: string;
-  email: string;
-  username: string;
-  displayName: string;
-  cohortNumber: Ordinal;
-};
-
 export type UpdateUserDto = {
   username?: string;
   displayName?: string;
@@ -16,7 +8,8 @@ export type UpdateUserDto = {
 };
 
 export interface IUserRepository {
-  create(userData: CreateUserDto): Promise<User>;
+  nextId(): Promise<string>;
+  create(user: User): Promise<void>;
   findById(id: string): Promise<User | null>;
   findByEmail(email: string): Promise<User | null>;
   findByUsername(username: string): Promise<User | null>;

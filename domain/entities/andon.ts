@@ -7,8 +7,8 @@ export class Andon {
     readonly festivalNumber: Ordinal,
     readonly grade: number,
     readonly classNumber: number,
-    public title: string,
-    public description: string,
-    public prizes: PrizeSnapshot[],
+    readonly title: string,
+    readonly description: string,
+    readonly prizes: PrizeSnapshot[], // 賞のデータの view だけで変更できないということを明示したい
   ) {}
 }

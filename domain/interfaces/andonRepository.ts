@@ -6,6 +6,7 @@ export type UpdateAndonDto = {
 };
 
 export interface IAndonRepository {
+  nextId(): Promise<string>;
   find(
     festivalNumber: number,
     grade: number,

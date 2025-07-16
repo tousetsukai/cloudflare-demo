@@ -3,9 +3,9 @@ import { PrizeSnapshot } from '../values/prizeSnapshot';
 export class Prize {
   constructor(
     readonly id: number,
-    public name: string,
-    public hexColor: string,
-    public order: number, // lower is high score
+    readonly name: string,
+    readonly hexColor: string,
+    readonly order: number, // lower is high score
   ) {}
 
   // 変更不可のスナップショット

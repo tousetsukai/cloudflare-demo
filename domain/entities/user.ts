@@ -3,7 +3,7 @@ import { Ordinal } from '../values/ordinal';
 export class User {
   constructor(
     readonly id: string,
-    readonly auth0Id: string,
+    readonly email: string,
     public username: string,
     public displayName: string,
     readonly cohortNumber: Ordinal,
@@ -11,12 +11,13 @@ export class User {
 
   static create(
     id: string,
-    auth0Id: string,
+    email: string,
     username: string,
     displayName: string,
     cohortNumber: Ordinal,
   ): User {
-    return new User(id, auth0Id, username, displayName, cohortNumber);
+    // TODO: validate
+    return new User(id, email, username, displayName, cohortNumber);
   }
 
   changeUsername(newUsername: string) {
