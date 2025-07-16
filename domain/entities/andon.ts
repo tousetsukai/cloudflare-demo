@@ -1,4 +1,5 @@
 import { Ordinal } from '../values/ordinal';
+import { PrizeSnapshot } from '../values/prizeSnapshot';
 
 export class Andon {
   constructor(
@@ -8,15 +9,6 @@ export class Andon {
     readonly classNumber: number,
     public title: string,
     public description: string,
-    readonly createdAt: Date,
-    readonly updatedAt: Date,
+    public prizes: PrizeSnapshot[],
   ) {}
-
-  changeTitle(newTitle: string) {
-    this.title = newTitle;
-  }
-
-  changeDescription(newDescription: string) {
-    this.description = newDescription;
-  }
 }

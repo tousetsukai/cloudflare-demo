@@ -14,24 +14,25 @@ const timestamps = {
 };
 
 export const users = sqliteTable('users', {
-  id: integer().primaryKey({ autoIncrement: true }),
+  id: text().primaryKey(),
+  email: text().notNull().unique(), // マスターは外部の認証基盤
   username: text().notNull().unique(),
   displayName: text().notNull(),
   cohortNumber: integer().notNull(), // 卒業期
   profile: text(),
   // 高々3つなのでベタ書きしているが要検討
   // 学年ごとに役割 (責任者、針金チーフなど) も入れたい
-  grade1ClassNumber: integer(), // cohortNumber=60, grade1ClassNumber=5 なら行灯は 58th1-5
+  grade1ClassNumber: integer(), // cohortNumber=76, grade1ClassNumber=5 なら行灯は 74th1-5
   grade2ClassNumber: integer(),
   grade3ClassNumber: integer(),
   ...timestamps,
 });
 
 export const festivals = sqliteTable('festivals', {
-  id: integer().primaryKey({ autoIncrement: true }),
-  festivalNumber: integer().notNull().unique(),
-  theme: text().notNull(), // テーマまだ発表されていない状態で作ることもあるかもしれないが、not null から nullable にするのは簡単なのでこのまま
-  themeKana: text(), // よみがなは不明なことがある
+  id: text().primaryKey(),
+  number: integer().notNull().unique(), // 76th なら number=76
+  theme: text(), // テーマまだ発表されていない状態で作ることもあるかもしれないため nullable
+  themeKana: text(),
   // 行列開催日、準備開始日も入れたい
   ...timestamps,
 });
@@ -40,8 +41,10 @@ export const festivals = sqliteTable('festivals', {
 export const andons = sqliteTable(
   'andons',
   {
-    id: integer().primaryKey({ autoIncrement: true }),
-    festivalId: integer().notNull(), // festivalNumber のほうがいい説
+    id: text().primaryKey(),
+    festivalId: text()
+      .notNull()
+      .references(() => festivals.id),
     grade: integer().notNull(),
     classNumber: integer().notNull(), // クラス番号が不明なケースがあり、その場合はマイナスとする (URL に入れたいので何らかの値は必要)
     title: text(),
@@ -60,18 +63,17 @@ export const andons = sqliteTable(
 );
 
 export const prizes = sqliteTable('prizes', {
-  id: integer().primaryKey({ autoIncrement: true }),
+  id: text().primaryKey(),
   name: text().notNull(),
-  description: text(),
   hexColor: text().notNull(),
   order: integer().notNull(), // lower is high score
   ...timestamps,
 });
 
-export const classroomPrizes = sqliteTable(
+export const andonPrizes = sqliteTable(
   'andon_prizes',
   {
-    id: integer().primaryKey({ autoIncrement: true }),
+    id: text().primaryKey(),
     andonId: integer()
       .notNull()
       .references(() => andons.id),
@@ -98,3 +100,5 @@ export const articles = sqliteTable('articles', {
   // TODO: editors
   ...timestamps,
 });
+
+// favorite_andons, favorite_articles もほしい

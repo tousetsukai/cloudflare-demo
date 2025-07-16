@@ -5,9 +5,9 @@ import {
   IUserRepository,
   CreateUserDto,
   UpdateUserDto,
-} from '../domain/interfaces/repositories';
-import { User } from '../domain/entities/user';
-import { Ordinal } from '../domain/values/ordinal';
+} from '../../domain/interfaces/userRepository';
+import { User } from '../../domain/entities/user';
+import { Ordinal } from '../../domain/values/ordinal';
 
 export class UserRepository implements IUserRepository {
   private db;
@@ -17,24 +17,22 @@ export class UserRepository implements IUserRepository {
   }
 
   toEntity(row: {
-    id: number;
+    id: string;
+    email: string;
     username: string;
     displayName: string;
     cohortNumber: number;
-    createdAt: string;
-    updatedAt: string;
   }): User {
     return new User(
       row.id,
+      row.email,
       row.username,
       row.displayName,
       new Ordinal(row.cohortNumber),
-      new Date(row.createdAt),
-      new Date(row.updatedAt),
     );
   }
 
-  async createUser(userData: CreateUserDto): Promise<User> {
+  async create(userData: CreateUserDto): Promise<User> {
     const values = {
       ...userData,
       cohortNumber: userData.cohortNumber.inner,
@@ -43,12 +41,20 @@ export class UserRepository implements IUserRepository {
     return this.toEntity(user);
   }
 
-  async findUserById(id: number): Promise<User | null> {
+  async findById(id: string): Promise<User | null> {
     const [user] = await this.db.select().from(users).where(eq(users.id, id));
     return user ? this.toEntity(user) : null;
   }
 
-  async findUserByUsername(username: string): Promise<User | null> {
+  async findByEmail(email: string): Promise<User | null> {
+    const [user] = await this.db
+      .select()
+      .from(users)
+      .where(eq(users.email, email));
+    return user ? this.toEntity(user) : null;
+  }
+
+  async findByUsername(username: string): Promise<User | null> {
     const [user] = await this.db
       .select()
       .from(users)
@@ -56,7 +62,7 @@ export class UserRepository implements IUserRepository {
     return user ? this.toEntity(user) : null;
   }
 
-  async updateUser(id: number, userData: UpdateUserDto): Promise<User | null> {
+  async update(id: string, userData: UpdateUserDto): Promise<User | null> {
     const values = {
       ...userData,
       cohortNumber: userData.cohortNumber?.inner,
@@ -70,7 +76,7 @@ export class UserRepository implements IUserRepository {
     return user ? this.toEntity(user) : null;
   }
 
-  async deleteUser(id: number): Promise<void> {
+  async delete(id: string): Promise<void> {
     await this.db.delete(users).where(eq(users.id, id));
   }
 }

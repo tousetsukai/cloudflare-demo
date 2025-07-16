@@ -24,4 +24,16 @@ export class Ordinal {
         }
     }
   }
+
+  static parse(s: string): Ordinal {
+    const match = s.match(/^([1-9]\d*)(st|nd|rd|th)$/);
+    if (!match) {
+      throw new Error(`Invalid ordinal string: ${s}`);
+    }
+    const value = parseInt(match[1], 10);
+    if (isNaN(value)) {
+      throw new Error(`Invalid number in ordinal string: ${s}`);
+    }
+    return new Ordinal(value);
+  }
 }

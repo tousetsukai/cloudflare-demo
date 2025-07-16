@@ -2,13 +2,22 @@ import { Ordinal } from '../values/ordinal';
 
 export class User {
   constructor(
-    readonly id: number,
+    readonly id: string,
+    readonly auth0Id: string,
     public username: string,
     public displayName: string,
     readonly cohortNumber: Ordinal,
-    readonly createdAt: Date,
-    readonly updatedAt: Date,
   ) {}
+
+  static create(
+    id: string,
+    auth0Id: string,
+    username: string,
+    displayName: string,
+    cohortNumber: Ordinal,
+  ): User {
+    return new User(id, auth0Id, username, displayName, cohortNumber);
+  }
 
   changeUsername(newUsername: string) {
     this.username = newUsername;

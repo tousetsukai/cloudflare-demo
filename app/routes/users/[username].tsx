@@ -1,5 +1,5 @@
 import { createRoute } from 'honox/factory';
-import { UserRepository } from '../../repositories/userRepository';
+import { UserRepository } from '../../../infra/d1/userRepository';
 
 export default createRoute(async (c) => {
   const userRepository = new UserRepository(c.env.DB);
