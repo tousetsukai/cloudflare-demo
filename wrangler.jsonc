@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "honox-example",
+  "name": "cloudflare-demo",
   "main": "./dist/index.js",
   "compatibility_date": "2025-07-14",
   "compatibility_flags": ["nodejs_compat"],
