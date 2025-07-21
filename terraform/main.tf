@@ -2,18 +2,55 @@
 # Cloudflare
 #
 
+locals {
+  script_name = "cloudflare-demo"
+}
+
 resource "cloudflare_d1_database" "main" {
-  account_id            = var.cloudflare_account_id
-  name                  = "cloudflare-demo"
-  primary_location_hint = "apac"
-  read_replication = {
-    mode = "disabled"
-  }
+  account_id = var.cloudflare_account_id
+  name       = "cloudflare-demo"
 
   lifecycle {
     prevent_destroy = true
   }
 }
+
+resource "random_password" "oidc_auth_secret" {
+  length = 32
+}
+
+resource "cloudflare_workers_secret" "oidc_auth_secret" {
+  account_id  = var.cloudflare_account_id
+  script_name = local.script_name
+  name        = "OIDC_AUTH_SECRET"
+  secret_text = random_password.oidc_auth_secret.result
+}
+
+resource "cloudflare_workers_secret" "oidc_issuer" {
+  account_id  = var.cloudflare_account_id
+  script_name = local.script_name
+  name        = "OIDC_ISSUER"
+  secret_text = "https://${var.auth0_domain}"
+}
+
+resource "cloudflare_workers_secret" "oidc_client_id" {
+  account_id  = var.cloudflare_account_id
+  script_name = local.script_name
+  name        = "OIDC_CLIENT_ID"
+  secret_text = auth0_client.main.client_id
+}
+
+resource "cloudflare_workers_secret" "oidc_client_secret" {
+  account_id  = var.cloudflare_account_id
+  script_name = local.script_name
+  name        = "OIDC_CLIENT_SECRET"
+  secret_text = auth0_client_credentials.main.client_secret
+}
+
+# import {
+#   id = "${var.cloudflare_account_id}/cloudflare-demo"
+#   to = cloudflare_workers_script.main
+# }
 
 #
 # Auth0
