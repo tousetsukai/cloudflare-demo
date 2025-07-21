@@ -1,5 +1,5 @@
-import { User } from '../entities/user';
-import { IUserRepository } from '../interfaces/userRepository';
+import type { User } from '../entities/user';
+import type { IUserRepository } from '../interfaces/userRepository';
 
 export class GetUserByUsernameUseCase {
   constructor(private userRepository: IUserRepository) {}

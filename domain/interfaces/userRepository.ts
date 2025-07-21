@@ -1,5 +1,5 @@
-import { User } from '../entities/user';
-import { Ordinal } from '../values/ordinal';
+import type { User } from '../entities/user';
+import type { Ordinal } from '../values/ordinal';
 
 export type UpdateUserDto = {
   username?: string;

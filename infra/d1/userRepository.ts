@@ -1,13 +1,13 @@
-import { drizzle } from 'drizzle-orm/d1';
 import { eq, sql } from 'drizzle-orm';
-import { users } from './schema';
-import {
+import { drizzle } from 'drizzle-orm/d1';
+import { ulid } from 'ulid';
+import { User } from '../../domain/entities/user';
+import type {
   IUserRepository,
   UpdateUserDto,
 } from '../../domain/interfaces/userRepository';
-import { User } from '../../domain/entities/user';
 import { Ordinal } from '../../domain/values/ordinal';
-import { ulid } from 'ulid';
+import { users } from './schema';
 
 export class UserRepository implements IUserRepository {
   private readonly db;

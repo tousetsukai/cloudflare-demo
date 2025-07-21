@@ -1,8 +1,8 @@
 import { getAuth, oidcAuthMiddleware } from '@hono/oidc-auth';
 import { createRoute } from 'honox/factory';
-import { UserRepository } from '../../infra/d1/userRepository';
 import { CheckRegisteredUseCase } from '../../domain/usecases/checkRegistered';
 import { Ordinal } from '../../domain/values/ordinal';
+import { UserRepository } from '../../infra/d1/userRepository';
 
 export const POST = createRoute(oidcAuthMiddleware(), async (c) => {
   const auth = await getAuth(c);
@@ -18,9 +18,9 @@ export const POST = createRoute(oidcAuthMiddleware(), async (c) => {
 
   // validation
   const body = await c.req.formData();
-  const motto1 = body.get('motto1')!;
-  const motto2 = body.get('motto2')!;
-  const motto3 = body.get('motto3')!;
+  const motto1 = body.get('motto1') || '';
+  const motto2 = body.get('motto2') || '';
+  const motto3 = body.get('motto3') || '';
   // サーバ側でチェックされる
   if (motto1 !== '寛容' || motto2 !== '進取' || motto3 !== '良識') {
     return c.render(<div class="text-red-500">北高訓が間違っています。</div>);

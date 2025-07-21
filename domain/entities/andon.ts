@@ -1,5 +1,5 @@
-import { Ordinal } from '../values/ordinal';
-import { PrizeSnapshot } from '../values/prizeSnapshot';
+import type { Ordinal } from '../values/ordinal';
+import type { PrizeSnapshot } from '../values/prizeSnapshot';
 
 export class Andon {
   constructor(

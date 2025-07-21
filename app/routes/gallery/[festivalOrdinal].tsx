@@ -6,7 +6,7 @@ export default createRoute(async (c) => {
   let festivalNumber: number;
   try {
     festivalNumber = Ordinal.parse(festivalOrdinal).inner;
-  } catch (error) {
+  } catch (_error) {
     return c.render(
       <div class="py-8 text-center">
         <h1 class="text-3xl font-bold">Invalid Festival Number</h1>

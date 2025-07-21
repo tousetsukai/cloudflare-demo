@@ -1,4 +1,4 @@
-import { Andon } from '../entities/andon';
+import type { Andon } from '../entities/andon';
 
 export type UpdateAndonDto = {
   title?: string;

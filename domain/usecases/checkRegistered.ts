@@ -1,4 +1,4 @@
-import { IUserRepository } from '../interfaces/userRepository';
+import type { IUserRepository } from '../interfaces/userRepository';
 
 export class CheckRegisteredUseCase {
   constructor(private userRepository: IUserRepository) {}

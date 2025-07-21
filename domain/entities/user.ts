@@ -1,4 +1,4 @@
-import { Ordinal } from '../values/ordinal';
+import type { Ordinal } from '../values/ordinal';
 
 export class User {
   constructor(

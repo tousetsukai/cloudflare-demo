@@ -1,5 +1,5 @@
 import { User } from '../entities/user';
-import { IUserRepository } from '../interfaces/userRepository';
+import type { IUserRepository } from '../interfaces/userRepository';
 import { Ordinal } from '../values/ordinal';
 
 export class RegisterUserUseCase {

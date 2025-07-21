@@ -1,7 +1,7 @@
-import { createRoute } from 'honox/factory';
 import { getAuth, oidcAuthMiddleware } from '@hono/oidc-auth';
-import { UserRepository } from '../../../infra/d1/userRepository';
+import { createRoute } from 'honox/factory';
 import { CheckRegisteredUseCase } from '../../../domain/usecases/checkRegistered';
+import { UserRepository } from '../../../infra/d1/userRepository';
 
 export default createRoute(oidcAuthMiddleware(), async (c, next) => {
   const repo = new UserRepository(c.env.DB);
