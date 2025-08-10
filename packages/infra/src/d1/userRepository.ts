@@ -1,19 +1,20 @@
-import { eq, sql } from 'drizzle-orm';
-import { drizzle } from 'drizzle-orm/d1';
-import { ulid } from 'ulid';
-import { User } from '../../domain/entities/user';
-import type {
-  IUserRepository,
-  UpdateUserDto,
-} from '../../domain/interfaces/userRepository';
-import { Ordinal } from '../../domain/values/ordinal';
-import { users } from './schema';
+import type { D1Database } from "@cloudflare/workers-types";
+import { eq, sql } from "drizzle-orm";
+import { drizzle } from "drizzle-orm/d1";
+import { ulid } from "ulid";
+import {
+  Ordinal,
+  User,
+  type IUserRepository,
+  type UpdateUserDto,
+} from "@satsukita-andon/domain";
+import { users } from "./schema";
 
 export class UserRepository implements IUserRepository {
   private readonly db;
 
   constructor(db: D1Database) {
-    this.db = drizzle(db, { casing: 'snake_case' });
+    this.db = drizzle(db, { casing: "snake_case" });
   }
 
   async nextId(): Promise<string> {
@@ -82,7 +83,7 @@ export class UserRepository implements IUserRepository {
       row.email,
       row.username,
       row.displayName,
-      new Ordinal(row.cohortNumber),
+      new Ordinal(row.cohortNumber)
     );
   }
 }

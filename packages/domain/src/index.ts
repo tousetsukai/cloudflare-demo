@@ -9,8 +9,14 @@ export { Prize } from "./entities/prize";
 export { User } from "./entities/user";
 
 // Repositories
-export type { IAndonRepository } from "./interfaces/andonRepository";
-export type { IUserRepository } from "./interfaces/userRepository";
+export type {
+  IAndonRepository,
+  UpdateAndonDto,
+} from "./interfaces/andonRepository";
+export type {
+  IUserRepository,
+  UpdateUserDto,
+} from "./interfaces/userRepository";
 
 // Use Cases
 export { CheckRegisteredUseCase } from "./usecases/checkRegistered";

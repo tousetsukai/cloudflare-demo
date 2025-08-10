@@ -1,8 +1,16 @@
 {
-  "name": "infra",
-  "module": "src/index.ts",
+  "name": "@satsukita-andon/infra",
   "type": "module",
+  "exports": {
+    "./d1": "./src/d1/index.ts"
+  },
+  "dependencies": {
+    "@satsukita-andon/domain": "workspace:*",
+    "drizzle-orm": "^0.44.4",
+    "ulid": "^3.0.1"
+  },
   "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250810.0",
     "@types/bun": "latest"
   },
   "peerDependencies": {

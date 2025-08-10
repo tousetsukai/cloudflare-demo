@@ -1,7 +1,10 @@
 {
-  "name": "domain",
-  "module": "src/index.ts",
+  "name": "@satsukita-andon/domain",
   "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "types": "./src/index.ts",
   "devDependencies": {
     "@types/bun": "latest"
   },
