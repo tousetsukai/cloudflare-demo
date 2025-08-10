@@ -1,8 +1,12 @@
 {
-  "name": "webapi",
-  "module": "index.ts",
+  "name": "@satsukita-andon/webapi",
   "type": "module",
+  "main": "src/index.ts",
   "private": true,
+  "dependencies": {
+    "@satsukita-andon/infra": "workspace:*",
+    "hono": "^4.9.0"
+  },
   "devDependencies": {
     "@types/bun": "latest"
   },

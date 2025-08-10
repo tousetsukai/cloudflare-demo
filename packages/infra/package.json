@@ -4,6 +4,7 @@
   "exports": {
     "./d1": "./src/d1/index.ts"
   },
+  "private": true,
   "dependencies": {
     "@satsukita-andon/domain": "workspace:*",
     "drizzle-orm": "^0.44.4",
